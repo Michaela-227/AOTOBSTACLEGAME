@@ -51,8 +51,7 @@ class SignalManager private constructor(context: Context) {
             }
 
         val oneShotVibrationEffect =
-            VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE)
-
+            VibrationEffect.createOneShot(Constants.Signals.VIBRATION_DURATION, VibrationEffect.DEFAULT_AMPLITUDE)
         vibrator.vibrate(oneShotVibrationEffect)
     }
 }

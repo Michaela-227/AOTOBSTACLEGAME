@@ -10,6 +10,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.obstaclegame.logic.GameManager
+import com.example.obstaclegame.utilities.Constants
 import com.example.obstaclegame.utilities.SignalManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
@@ -30,11 +31,11 @@ class MainActivity : AppCompatActivity() {
     private val gameLoop: Runnable = object : Runnable {
         override fun run() {
             if (gameManager.moveTitansDown()) {
-                SignalManager.getInstance().toast("👹 Titan got you!", SignalManager.ToastLength.SHORT)
+                SignalManager.getInstance().toast(getString(R.string.titan_hit), SignalManager.ToastLength.SHORT)
                 SignalManager.getInstance().vibrate()
             }
             refreshUI()
-            handler.postDelayed(this, 1_000L)
+            handler.postDelayed(this, Constants.Timer.GAME_TICK)
         }
     }
 
@@ -58,7 +59,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        handler.postDelayed(gameLoop, 1_000L)
+        handler.postDelayed(gameLoop, Constants.Timer.GAME_TICK)
     }
 
     override fun onStop() {

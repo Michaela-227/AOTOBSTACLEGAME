@@ -1,5 +1,6 @@
 <resources>
-    <string name="app_name">OBSTACLEGAME</string>
+    <string name="app_name">AOTOBSTACLEGAME</string>
     <string name="left">Move left</string>
     <string name="right">Move right</string>
+    <string name="titan_hit">👹 Titan got you!</string>
 </resources>
