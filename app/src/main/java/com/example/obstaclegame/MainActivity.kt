@@ -10,6 +10,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.obstaclegame.logic.GameManager
+import com.example.obstaclegame.utilities.SignalManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity() {
@@ -22,11 +23,16 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var main_IMG_titans: Array<Array<AppCompatImageView>>
 
+    private lateinit var main_IMG_hearts: Array<AppCompatImageView>
+
     private val handler: Handler = Handler(Looper.getMainLooper())
 
     private val gameLoop: Runnable = object : Runnable {
         override fun run() {
-            gameManager.moveTitansDown()
+            if (gameManager.moveTitansDown()) {
+                SignalManager.getInstance().toast("👹 Titan got you!", SignalManager.ToastLength.SHORT)
+                SignalManager.getInstance().vibrate()
+            }
             refreshUI()
             handler.postDelayed(this, 1_000L)
         }
@@ -42,7 +48,11 @@ class MainActivity : AppCompatActivity() {
             insets
         }
         findViews()
-        gameManager = GameManager(main_IMG_eren.size, main_IMG_titans.size)
+        gameManager = GameManager(
+            main_IMG_eren.size,
+            main_IMG_titans.size,
+            main_IMG_hearts.size
+        )
         initViews()
     }
 
@@ -91,6 +101,11 @@ class MainActivity : AppCompatActivity() {
                 findViewById(R.id.main_IMG_titan_4_2)
             )
         )
+        main_IMG_hearts = arrayOf(
+            findViewById(R.id.main_IMG_heart0),
+            findViewById(R.id.main_IMG_heart1),
+            findViewById(R.id.main_IMG_heart2)
+        )
     }
 
     private fun initViews() {
@@ -117,6 +132,12 @@ class MainActivity : AppCompatActivity() {
                     if (gameManager.titans[row][lane]) View.VISIBLE
                     else View.INVISIBLE
             }
+        }
+        val heartsLeft = main_IMG_hearts.size - gameManager.crashes
+        main_IMG_hearts.forEachIndexed { index, heart ->
+            heart.visibility =
+                if (index < heartsLeft) View.VISIBLE
+                else View.INVISIBLE
         }
 
     }
