@@ -1,6 +1,8 @@
 package com.example.obstaclegame
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -20,6 +22,16 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var main_IMG_titans: Array<Array<AppCompatImageView>>
 
+    private val handler: Handler = Handler(Looper.getMainLooper())
+
+    private val gameLoop: Runnable = object : Runnable {
+        override fun run() {
+            gameManager.moveTitansDown()
+            refreshUI()
+            handler.postDelayed(this, 1_000L)
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -32,6 +44,16 @@ class MainActivity : AppCompatActivity() {
         findViews()
         gameManager = GameManager(main_IMG_eren.size, main_IMG_titans.size)
         initViews()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        handler.postDelayed(gameLoop, 1_000L)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        handler.removeCallbacks(gameLoop)
     }
 
     private fun findViews() {
@@ -74,12 +96,10 @@ class MainActivity : AppCompatActivity() {
     private fun initViews() {
         main_FAB_left.setOnClickListener {
             gameManager.moveLeft()
-            gameManager.moveTitansDown()   // TEMP: until we add a timer
             refreshUI()
         }
         main_FAB_right.setOnClickListener {
             gameManager.moveRight()
-            gameManager.moveTitansDown()   // TEMP: until we add a timer
             refreshUI()
         }
         refreshUI()
@@ -98,6 +118,7 @@ class MainActivity : AppCompatActivity() {
                     else View.INVISIBLE
             }
         }
+
     }
 
 }
