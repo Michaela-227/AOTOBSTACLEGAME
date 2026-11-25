@@ -1,19 +1,282 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/road"
     tools:context=".MainActivity">
 
-    <TextView
+    <!-- ===== 3 hearts, top right ===== -->
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/main_LAY_hearts"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="@dimen/default_margin">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/main_IMG_heart0"
+            android:layout_width="@dimen/heart_dimens"
+            android:layout_height="@dimen/heart_dimens"
+            app:srcCompat="@drawable/heart" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/main_IMG_heart1"
+            android:layout_width="@dimen/heart_dimens"
+            android:layout_height="@dimen/heart_dimens"
+            android:layout_marginHorizontal="@dimen/default_margin"
+            app:srcCompat="@drawable/heart" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/main_IMG_heart2"
+            android:layout_width="@dimen/heart_dimens"
+            android:layout_height="@dimen/heart_dimens"
+            app:srcCompat="@drawable/heart" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <!-- ===== Left / Right buttons, bottom corners ===== -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/main_FAB_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/default_margin"
+        android:backgroundTint="@color/button"
+        android:contentDescription="@string/left"
+        app:srcCompat="@drawable/arrow_left"
+        app:tint="@color/white" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/main_FAB_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/default_margin"
+        android:backgroundTint="@color/button"
+        android:contentDescription="@string/right"
+        app:srcCompat="@drawable/arrow_right"
+        app:tint="@color/white" />
+
+    <!-- ===== The road: a grid of rows, each row has 3 lanes =====
+         Every cell is an image that we show / hide from the code.
+         Obstacles start "invisible"; tools:visibility only affects
+         the Android Studio preview, so we can see them while designing. -->
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/main_LAY_road"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/main_LAY_hearts"
+        android:layout_above="@id/main_FAB_left"
+        android:orientation="vertical">
+
+        <!-- Row 0 (top) -->
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/main_IMG_titan_0_0"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="@dimen/cell_padding"
+                android:visibility="invisible"
+                app:srcCompat="@drawable/titan"
+                tools:visibility="visible" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/main_IMG_titan_0_1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="@dimen/cell_padding"
+                android:visibility="invisible"
+                app:srcCompat="@drawable/titan" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/main_IMG_titan_0_2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="@dimen/cell_padding"
+                android:visibility="invisible"
+                app:srcCompat="@drawable/titan" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <!-- Row 1 -->
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/main_IMG_titan_1_0"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="@dimen/cell_padding"
+                android:visibility="invisible"
+                app:srcCompat="@drawable/titan" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/main_IMG_titan_1_1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="@dimen/cell_padding"
+                android:visibility="invisible"
+                app:srcCompat="@drawable/titan" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/main_IMG_titan_1_2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="@dimen/cell_padding"
+                android:visibility="invisible"
+                app:srcCompat="@drawable/titan" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <!-- Row 2 -->
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/main_IMG_titan_2_0"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="@dimen/cell_padding"
+                android:visibility="invisible"
+                app:srcCompat="@drawable/titan" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/main_IMG_titan_2_1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="@dimen/cell_padding"
+                android:visibility="invisible"
+                app:srcCompat="@drawable/titan" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/main_IMG_titan_2_2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="@dimen/cell_padding"
+                android:visibility="invisible"
+                app:srcCompat="@drawable/titan" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <!-- Row 3 -->
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/main_IMG_titan_3_0"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="@dimen/cell_padding"
+                android:visibility="invisible"
+                app:srcCompat="@drawable/titan" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/main_IMG_titan_3_1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="@dimen/cell_padding"
+                android:visibility="invisible"
+                app:srcCompat="@drawable/titan" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/main_IMG_titan_3_2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="@dimen/cell_padding"
+                android:visibility="invisible"
+                app:srcCompat="@drawable/titan" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <!-- Row 4 -->
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/main_IMG_titan_4_0"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="@dimen/cell_padding"
+                android:visibility="invisible"
+                app:srcCompat="@drawable/titan" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/main_IMG_titan_4_1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="@dimen/cell_padding"
+                android:visibility="invisible"
+                app:srcCompat="@drawable/titan" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/main_IMG_titan_4_2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="@dimen/cell_padding"
+                android:visibility="invisible"
+                app:srcCompat="@drawable/titan" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <!-- Eren row (bottom): only the middle eren is visible at the start -->
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/main_IMG_eren_0"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="@dimen/cell_padding"
+                android:visibility="invisible"
+                app:srcCompat="@drawable/eren" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/main_IMG_eren_1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="@dimen/cell_padding"
+                app:srcCompat="@drawable/eren" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/main_IMG_eren_2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="@dimen/cell_padding"
+                android:visibility="invisible"
+                app:srcCompat="@drawable/eren" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</RelativeLayout>
